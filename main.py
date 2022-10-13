@@ -46,12 +46,23 @@ def get_car(car_id: int) -> JSONResponse:
     return JSONResponse(Car(car), status_code=200)
 
 
-def update_car():
-    pass
+def update_car(car_id: int, car: Car) -> JSONResponse:
+    if not cars.get(car_id):
+        error = {'error': CAR_NOT_FOUND}
+        return JSONResponse(error, status_code=404)
+    else:
+        car.id = car_id
+        cars[car_id] = car
+        return JSONResponse(Car(car), 200)
 
 
-def delete_car():
-    pass
+def delete_car(car_id: int) -> JSONResponse:
+    if not cars.get(car_id):
+        error = {'error': CAR_NOT_FOUND}
+        return JSONResponse(error, status_code=404)
+    else:
+        del cars[car_id]
+        return JSONResponse({}, 204)
 
 
 # Specify endpoint method and handler
